@@ -15,13 +15,21 @@
             </div>
           </v-card-title>
           <v-card-actions>
-            <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
+            <!-- <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
             <div class="ml-1">
               <span>{{ book.rating }}</span>
               <span class="ml-1">({{ book.ratingCounter }})</span>
-            </div>
+            </div> -->
             <v-spacer></v-spacer>
-            <v-btn class="primary" flat>Download</v-btn>
+            <v-btn
+            v-if="canLoadBook(book.id)"
+            @click="loadBook(book.id)"
+            class="primary" flat
+            >Download</v-btn>
+            <div v-if="getUserDataBook(book.id)">
+              <v-icon>work_outline</v-icon>
+              Loaded {{getBookAddedDate(book.id)}}
+            </div>
             <v-btn flat color="black">
               <v-icon left>visibility</v-icon> Youtube
             </v-btn>
@@ -48,14 +56,24 @@
               <div>Level: {{ getBoockLevel(book.level) }}, {{ book.parts.length}} parts</div>
             </v-card-title>
             <v-card-actions>
-              <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
+              <!-- <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
               <div class="ml-1">
                 <span>{{ book.rating }}</span>
                 <span class="ml-1">({{ book.ratingCounter }})</span>
-              </div>
+              </div> -->
             </v-card-actions>
-            <v-btn class="primary" flat>Download</v-btn>
-            <v-btn flat color="black">Youtube</v-btn>
+            <v-btn
+            @click="loadBook(book.id)"
+            v-if="canLoadBook(book.id)"
+            class="primary" flat
+            >Download</v-btn>
+            <div v-if="getUserDataBook(book.id)">
+              <v-icon>work_outline</v-icon>
+              Loaded {{getBookAddedDate(book.id)}}
+            </div>
+            <div>
+            <v-btn right flat color="black"><v-icon left>visibility</v-icon>Youtube</v-btn>
+            </div>
           </v-flex>
         </v-layout>
       </div>
@@ -66,6 +84,7 @@
 
 <script>
 import * as BookHelper from '../helpers/book'
+import {mapGetters} from 'vuex'
 export default {
   props: {
     'book': {
@@ -74,7 +93,27 @@ export default {
     }
   },
   methods: {
-    getBoockLevel: BookHelper.getBoockLevel
+    getBoockLevel: BookHelper.getBoockLevel,
+
+    canLoadBook (bookId) {
+      let book = this.getUserDataBook(bookId)
+      return this.isUserLoggedIn && !this.loading && !book
+    },
+    getUserDataBook (bookId) {
+      return this.userData.books[bookId]
+    },
+    loadBook (bookId) {
+      this.$store.dispatch('addUserBook', bookId)
+    },
+    getBookAddedDate (bookId) {
+      let book = this.getUserDataBook(bookId)
+      return book.addedDate.toLocaleDateString()
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'isUserLoggedIn', 'userData', 'loading'
+    ])
   }
 }
 </script>

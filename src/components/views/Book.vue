@@ -2,7 +2,6 @@
   <v-container grid-list-md v-if="book">
     <v-layout row wrap>
       <v-flex xs12 sm10 offset-sm-1>
-
         <book-detalis :book='book'></book-detalis>
       </v-flex>
       <v-flex xs12 sm10 offset-sm-1 v-for="part in book.parts" :key="part.id">

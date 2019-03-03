@@ -15,11 +15,11 @@
             </div>
           </v-card-title>
           <v-card-actions>
-            <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
+            <!-- <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
             <div class="ml-1">
               <span>{{ book.rating }}</span>
               <span class="ml-1">({{ book.ratingCounter }})</span>
-            </div>
+            </div> -->
             <v-spacer></v-spacer>
             <v-btn class="primary" flat :to="{name: 'book', params: {id:book.id}}">Open</v-btn>
             <v-btn flat color="black">
@@ -48,11 +48,11 @@
               <div>Level: {{ getBoockLevel(book.level) }}, {{ book.parts.length}} parts</div>
             </v-card-title>
             <v-card-actions>
-              <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
+              <!-- <v-rating v-model="book.rating" color="orange" readonly dense half-increments></v-rating>
               <div class="ml-1">
                 <span>{{ book.rating }}</span>
                 <span class="ml-1">({{ book.ratingCounter }})</span>
-              </div>
+              </div> -->
             </v-card-actions>
             <v-btn class="primary" flat :to="{name: 'book', params: {id:book.id}}">Open</v-btn>
             <v-btn flat color="black">Youtube</v-btn>

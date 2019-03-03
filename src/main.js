@@ -26,12 +26,12 @@ new Vue({
   template: '<App/>',
   created () {
     firebase.initializeApp({
-      apiKey: 'AIzaSyBYf5_mUXsOgjjdaXZmmj-okgdjPbscJnc',
-      authDomain: 'i-m-learning-javascript.firebaseapp.com',
-      databaseURL: 'https://i-m-learning-javascript.firebaseio.com',
-      projectId: 'i-m-learning-javascript',
-      storageBucket: 'i-m-learning-javascript.appspot.com',
-      messagingSenderId: '146726659529'
+      apiKey: 'AIzaSyDKH5kigB_vIheliEtnT0MrLItzpEzq3V8',
+      authDomain: 'learn-englich.firebaseapp.com',
+      databaseURL: 'https://learn-englich.firebaseio.com',
+      projectId: 'learn-englich',
+      storageBucket: '',
+      messagingSenderId: '512354013634'
     })
 
     firebase.auth().onAuthStateChanged(user => {

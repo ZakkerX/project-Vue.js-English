@@ -83,7 +83,6 @@ export default {
           email: this.email,
           password: this.password
         }
-
         this.$store.dispatch('loginUser', user)
           .then(() => {
             this.$router.push('/')

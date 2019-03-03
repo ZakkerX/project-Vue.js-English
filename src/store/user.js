@@ -1,18 +1,14 @@
 import * as firebase from 'firebase'
 
-class User {
-  constructor (id) {
-    this.id = id
-  }
-}
-
 export default {
   state: {
-    user: null
+    user: {
+      uid: null
+    }
   },
   mutations: {
     setUser (state, payload) {
-      state.user = payload
+      state.user.uid = payload
     }
   },
   actions: {
@@ -21,7 +17,7 @@ export default {
       commit('setLoading', true)
       try {
         const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
-        commit('setUser', new User(user.uid))
+        commit('setUser', user.uid)
         commit('setLoading', false)
       } catch (error) {
         commit('setLoading', false)
@@ -34,7 +30,7 @@ export default {
       commit('setLoading', true)
       try {
         const user = await firebase.auth().signInWithEmailAndPassword(email, password)
-        commit('setUser', new User(user.uid))
+        commit('setUser', user.uid)
         commit('setLoading', false)
       } catch (error) {
         commit('setLoading', false)
@@ -42,8 +38,9 @@ export default {
         throw error
       }
     },
-    autoLoginUser ({commit}, payload) {
-      commit('setUser', new User(payload.uid))
+    autoLoginUser ({commit, dispatch}, payload) {
+      commit('setUser', payload.uid)
+      dispatch('loadUserData', payload.uid)
     },
     logoutUser ({commit}) {
       firebase.auth().signOut()
@@ -55,7 +52,10 @@ export default {
       return state.user
     },
     isUserLoggedIn (state) {
-      return state.user !== null
+      return state.user.uid !== null
+    },
+    userId (state) {
+      return state.user.uid
     }
   }
 }

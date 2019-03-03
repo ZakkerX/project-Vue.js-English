@@ -1,17 +1,18 @@
 <template>
-  <v-container grid-list-md v-if="part">
+  <v-container fluid grid-list-md v-if="part">
     <v-layout row wrap>
       <v-flex xs12 sm10 offset-sm1>
         <book-part-content :part='part'></book-part-content>
       </v-flex>
       <v-flex xs12 sm10 offset-sm1>
-        <book-part-words :words='words'></book-part-words>
+        <book-part-words :words='part.words'></book-part-words>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import Vue from 'vue'
 import BookPartContent from '../BookPartContent'
 import BookPartWords from '../BookPartWords'
 export default {
@@ -25,14 +26,29 @@ export default {
       required: true
     }
   },
-  computed: {
-    part () {
-      let val = this.$store.getters.getParts.find(b => b.bookId === this.bookId && b.bookPartId === this.partId)
-      return val
+  data () {
+    return {
+      part: null
     }
   },
+  created () {
+    Vue.$db.collection('bookParts')
+      .where('bookId', '==', this.bookId)
+      .where('bookPartId', '==', this.partId)
+      .get()
+      .then(qs => {
+        qs.forEach(s => {
+          this.part = s.data()
+        })
+      })
+      .then(() => {
+        this.$store.dispatch('updateUserBookPartStats', {bookId: this.bookId, partId: this.partId})
+      })
+      .catch(e => global.console.log(e))
+  },
   components: {
-    BookPartContent, BookPartWords
+    BookPartContent,
+    BookPartWords
   }
 }
 </script>
