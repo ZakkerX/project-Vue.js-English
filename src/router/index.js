@@ -5,6 +5,8 @@ import AuthGuard from './auth-guard'
 
 import Home from '@/components/views/Home'
 import Books from '@/components/views/Books'
+import Book from '@/components/views/Book'
+import BookPart from '@/components/views/BookPart'
 import Words from '@/components/views/Words'
 import Profile from '@/components/views/Profile'
 
@@ -24,6 +26,20 @@ export default new Router({
       path: '/books',
       name: 'books',
       component: Books,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/book/:id',
+      name: 'book',
+      component: Book,
+      props: true,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/book/:bookId/part/:partId',
+      name: 'bookPart',
+      component: BookPart,
+      props: true,
       beforeEnter: AuthGuard
     },
     {
