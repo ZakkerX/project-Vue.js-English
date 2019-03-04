@@ -5,6 +5,8 @@ import store from './store'
 import Vuetify from 'vuetify'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 
+import FormattedDate from './helpers/filtersDate'
+
 import firebase from 'firebase'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -19,6 +21,8 @@ Vue.use(Vuetify, {
   }
 })
 Vue.use(VueYouTubeEmbed)
+
+Vue.filter('formattedDate', FormattedDate)
 
 Vue.config.productionTip = false
 

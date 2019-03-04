@@ -2,6 +2,10 @@
   <v-card color="accent">
     <v-card-title primary-title class="headline">{{part.title}}</v-card-title>
     <v-card-actions>
+      <div v-if="finishedDate">
+        <v-icon dark>check</v-icon>
+        Done {{finishedDate | formattedDate}}
+      </div>
       <v-spacer></v-spacer>
       <v-btn flat class='primary'
       :to="{name: 'bookPart', params: {bookId: bookId, partId: part.id}}"
@@ -28,6 +32,14 @@ export default {
     ...mapGetters(['isUserLoggedIn', 'userData', 'loading']),
     isUserBookLoaded () {
       return this.isUserLoggedIn && !this.loading && !!this.userData.books[this.bookId]
+    },
+    finishedDate () {
+      if (!this.isUserBookLoaded) return false
+
+      let book = this.userData.books[this.bookId]
+      if (book && book.parts[this.part.id]) {
+        return book.parts[this.part.id].finishedDate
+      }
     }
   }
 }

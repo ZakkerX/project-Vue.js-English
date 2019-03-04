@@ -19,6 +19,10 @@ export default {
     },
     updateUserBookPartLastOpenedDate (state, payload) {
       Vue.set(state.userData.books[payload.bookId].parts[payload.partId], 'lastOpenedDate', payload.timestamp)
+    },
+    updateUserBookPartFinishInfo (state, payload) {
+      Vue.set(state.userData.books[payload.bookId].parts[payload.partId], 'finishedDate', payload.timestamp)
+      Vue.set(state.userData.books[payload.bookId].parts[payload.partId], 'rating', payload.rating)
     }
   },
   actions: {
@@ -31,11 +35,7 @@ export default {
           if (!userData.books) {
             userData.books = {}
           }
-          for (let key in userData.books) {
-            if (userData.books.hasOwnProperty(key)) {
-              userData.books[key].addedDate = userData.books[key].addedDate.toDate()
-            }
-          }
+
           commit('setUserData', userData)
           commit('setLoading', false)
         })
@@ -76,6 +76,21 @@ export default {
         [`books.${payload.bookId}.parts.${payload.partId}.lastOpenDate`]: timestamp
       })
         .then(() => commit('updateUserBookPartLastOpenedDate', {bookId: payload.bookId, partId: payload.partId, timestamp: timestamp}))
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    finishUserBookPart ({commit, getters}, payload) {
+      let userDataRef = Vue.$db.collection('userData').doc(getters.userId)
+      let timestamp = new Date()
+      userDataRef.update({
+        [`books.${payload.bookId}.parts.${payload.partId}.finishedDate`]: timestamp,
+        [`books.${payload.bookId}.parts.${payload.partId}.rating`]: payload.rating
+      })
+        .then(() => commit('updateUserBookPartFinishInfo', {bookId: payload.bookId, partId: payload.partId, timestamp: timestamp, rating: payload.rating}))
+        .catch((e) => {
+          console.log(e)
+        })
     }
   },
   getters: {

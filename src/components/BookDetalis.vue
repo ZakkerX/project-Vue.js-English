@@ -28,7 +28,7 @@
             >Download</v-btn>
             <div v-if="getUserDataBook(book.id)">
               <v-icon>work_outline</v-icon>
-              Loaded {{getBookAddedDate(book.id)}}
+              Loaded {{getBookAddedDate(book.id) | formattedDate}}
             </div>
             <v-btn flat color="black">
               <v-icon left>visibility</v-icon> Youtube
@@ -69,7 +69,7 @@
             >Download</v-btn>
             <div v-if="getUserDataBook(book.id)">
               <v-icon>work_outline</v-icon>
-              Loaded {{getBookAddedDate(book.id)}}
+              Loaded {{getBookAddedDate(book.id) | formattedDate}}
             </div>
             <div>
             <v-btn right flat color="black"><v-icon left>visibility</v-icon>Youtube</v-btn>
@@ -107,7 +107,7 @@ export default {
     },
     getBookAddedDate (bookId) {
       let book = this.getUserDataBook(bookId)
-      return book.addedDate.toLocaleDateString()
+      return book.addedDate
     }
   },
   computed: {
