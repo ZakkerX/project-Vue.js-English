@@ -12,7 +12,7 @@ export default {
       state.userData = payload
     },
     addUserBook (state, payload) {
-      Vue.set(state.userData.books, payload.bookId, payload.book)
+      Vue.set(state.userData.books, payload.bookId, payload.book)// для того чтобы при добавление новых свйоств они были рективными №8 31:00
     },
     addUserBookPart (state, payload) {
       Vue.set(state.userData.books[payload.bookId].parts, payload.partId, {addedDate: payload.timestamp})
