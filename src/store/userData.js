@@ -23,6 +23,9 @@ export default {
     updateUserBookPartFinishInfo (state, payload) {
       Vue.set(state.userData.books[payload.bookId].parts[payload.partId], 'finishedDate', payload.timestamp)
       Vue.set(state.userData.books[payload.bookId].parts[payload.partId], 'rating', payload.rating)
+    },
+    addUserWord (state, payload) {
+      Vue.set(state.userData.words, payload.wordId, payload.word)
     }
   },
   actions: {
@@ -35,7 +38,9 @@ export default {
           if (!userData.books) {
             userData.books = {}
           }
-
+          if (!userData.words) {
+            userData.words = {}
+          }
           commit('setUserData', userData)
           commit('setLoading', false)
         })
@@ -57,6 +62,34 @@ export default {
       }, {merge: true})
         .then(() => {
           commit('addUserBook', {bookId: payload, book: book})
+          commit('setLoading', false)
+        })
+        .catch((e) => {
+          commit('setLoading', false)
+        })
+    },
+    addUserWord ({commit, getters}, payload) {
+      commit('setLoading', true)
+      console.log(payload)
+      let userDataRef = Vue.$db.collection('userData').doc(getters.userId)
+      let word = {
+        origText: payload.origText,
+        transText: payload.transText,
+        type: payload.type,
+        addedDate: new Date(),
+        bucket: 1,
+        nextShowDate: new Date()
+      }
+      if (payload.origPrefix) {
+        word.origPrefix = payload.origPrefix
+      }
+      userDataRef.set({
+        words: {
+          [payload.key]: word
+        }
+      }, {merge: true})
+        .then(() => {
+          commit('addUserWord', {wordId: payload.key, word: word})
           commit('setLoading', false)
         })
         .catch((e) => {
