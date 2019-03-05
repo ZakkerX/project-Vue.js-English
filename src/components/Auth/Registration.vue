@@ -17,6 +17,14 @@
             <v-form v-model="valid" ref="form" lazy-validation>
               <v-text-field
                 prepend-icon="person"
+                name="name"
+                label="Name"
+                type="text"
+                v-model="name"
+                :rules="nameRules"
+              ></v-text-field>
+              <v-text-field
+                prepend-icon="email"
                 name="email"
                 label="Email"
                 type="email"
@@ -33,7 +41,7 @@
                 :rules="passwordRules"
               ></v-text-field>
               <v-text-field
-                prepend-icon="lock"
+                prepend-icon="verified_user"
                 name="confirm-password"
                 label="Confirm Password"
                 type="password"
@@ -64,10 +72,14 @@ const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 export default {
   data () {
     return {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
       valid: false,
+      nameRules: [
+        v => !!v || 'Name is required'
+      ],
       emailRules: [
         v => !!v || 'E-mail is required',
         v => emailRegex.test(v) || 'E-mail must be valid'
@@ -94,6 +106,7 @@ export default {
     onSubmit () {
       if (this.$refs.form.validate()) {
         const user = {
+          name: this.name,
           email: this.email,
           password: this.password
         }

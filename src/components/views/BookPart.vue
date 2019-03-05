@@ -3,15 +3,15 @@
     <v-layout row wrap>
       <v-flex xs12 sm10 offset-sm1 v-if="finishedDate" >
         <v-card >
-          <v-responsive>
+          <!-- <v-responsive>
             <v-img max-width='400px' src='https://firebasestorage.googleapis.com/v0/b/learn-englich.appspot.com/o/8TEAopGTa.jpg?alt=media&token=fd905756-a6ab-412b-a700-b8a596f58d0e'></v-img>
-          </v-responsive>
+          </v-responsive> -->
           <v-card-title primary-title>
             <div class="headline">Done! {{finishedDate | formattedDate}}</div>
           </v-card-title>
           <v-card-text>
             <span>My mark</span>
-            <v-rating v-model="savedRating" color="success" readonly large></v-rating>
+            <v-rating v-model="savedRating" half-increments color="success" readonly large></v-rating>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -22,7 +22,7 @@
         <book-part-words :words='part.words'></book-part-words>
       </v-flex>
       <v-flex xs12 sm10 offset-sm1 class="text-xs-center">
-        <v-dialog v-model="finishDialog" persistent max-width="400px">
+        <v-dialog v-model="finishDialog"  persistent max-width="400px">
           <v-btn
           slot="activator"
           color="success"
@@ -31,25 +31,27 @@
           >
           <v-icon>check</v-icon>To finish
           </v-btn>
-          <v-responsive>
-            <v-img max-width='400px' src='https://firebasestorage.googleapis.com/v0/b/learn-englich.appspot.com/o/8TEAopGTa.jpg?alt=media&token=fd905756-a6ab-412b-a700-b8a596f58d0e'></v-img>
-          </v-responsive>
-          <v-card-title primary-title>
-            <div class="headline">Done!</div>
-          </v-card-title>
-          <v-card-text>
-            <span>My mark</span>
-            <v-rating v-model="rating" color="success" half-increment large></v-rating>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" dark flat @click.native="finishDialog = false">
-              <v-icon>close</v-icon> Close
-            </v-btn>
-            <v-btn color="primary" dark flat @click.native="finishWork">
-              <v-icon>check</v-icon> Done
-            </v-btn>
-          </v-card-actions>
+          <v-card>
+            <v-responsive>
+              <v-img max-width='400px' src='https://firebasestorage.googleapis.com/v0/b/learn-englich.appspot.com/o/8TEAopGTa.jpg?alt=media&token=fd905756-a6ab-412b-a700-b8a596f58d0e'></v-img>
+            </v-responsive>
+            <v-card-title primary-title>
+              <div class="headline">Done!</div>
+            </v-card-title>
+            <v-card-text>
+              <span>My mark</span>
+              <v-rating v-model="rating" hover color="success" half-increments large></v-rating>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" dark flat @click.native="finishDialog = false">
+                <v-icon>close</v-icon> Close
+              </v-btn>
+              <v-btn color="primary" dark flat @click.native="finishWork">
+                <v-icon>check</v-icon> Done
+              </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-dialog>
       </v-flex>
     </v-layout>

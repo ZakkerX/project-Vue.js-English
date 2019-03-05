@@ -1,12 +1,44 @@
 <template>
-  <div>
-    <h1>profile</h1>
-  </div>
+  <v-container fluid grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12 sm10 offset-sm1>
+        <v-tabs fixed-tabs v-model="tabMode" color="accent" dark slider-color="success">
+          <v-tab :key="'Data'" ripple>
+             data
+          </v-tab>
+          <v-tab :key="'Books'" ripple>
+             Book
+          </v-tab>
+          <v-tab :key="'Words'" ripple>
+             words
+          </v-tab>
+          <v-tab-item :key="'Data'">
+            <user-profile-data></user-profile-data>
+          </v-tab-item>
+          <v-tab-item :key="'Books'">
+            Books
+          </v-tab-item>
+          <v-tab-item :key="'Words'">
+            Words
+          </v-tab-item>
+        </v-tabs>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-export default {
 
+import userProfileData from '../userProfileData'
+export default {
+  data () {
+    return {
+      tabMode: 'data'
+    }
+  },
+  components: {
+    userProfileData
+  }
 }
 </script>
 
