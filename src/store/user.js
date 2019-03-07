@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import {EventBus} from '../infrastructure/eventBus'
 
 export default {
   state: {
@@ -73,6 +74,7 @@ export default {
               .then(() => {
                 commit('setUserName', payload.newName)
                 commit('setLoading', false)
+                EventBus.notify('userProfileDataChanged')
               })
               .catch((error) => {
                 commit('setLoading', false)
@@ -85,6 +87,7 @@ export default {
               .then(() => {
                 commit('setUserEmail', payload.newEmail)
                 commit('setLoading', false)
+                EventBus.notify('userProfileDataChanged')
               })
               .catch((error) => {
                 commit('setLoading', false)
@@ -96,6 +99,7 @@ export default {
             firebase.auth().currentUser.updatePassword(payload.newPassword)
               .then(() => {
                 commit('setLoading', false)
+                EventBus.notify('userProfileDataChanged')
               })
               .catch((error) => {
                 commit('setLoading', false)

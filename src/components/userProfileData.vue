@@ -135,6 +135,14 @@ export default {
         changeType: this.changeType
       })
     }
+  },
+  created () {
+    this.$bus.$on('userProfileDataChanged', () => {
+      this.dialog = false
+    })
+  },
+  beforeDestroy () {
+    this.$bus.$off('userProfileDataChanged')
   }
 }
 </script>

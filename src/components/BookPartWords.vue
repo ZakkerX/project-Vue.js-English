@@ -10,21 +10,18 @@
         <v-card>
           <v-card-title>
             <div class="headline">
-
               <v-tooltip bottom>
                 <v-avatar slot="activator" v-if="props.item.type == 1" color="teal" size='52'>
                   <span class="white--text">W</span>
                 </v-avatar>
                 <span>Word</span>
               </v-tooltip>
-
               <v-tooltip bottom>
                 <v-avatar slot="activator" v-if="props.item.type == 2" color="indigo" size='52'>
                   <span class="white--text">RW</span>
                 </v-avatar>
                 <span>Expression</span>
               </v-tooltip>
-
               {{ getFullOriginalWord(props.item)}}
             </div>
           </v-card-title>

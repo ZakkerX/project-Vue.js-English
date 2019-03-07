@@ -6,6 +6,7 @@ import Vuetify from 'vuetify'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 
 import FormattedDate from './helpers/filtersDate'
+import {setupBus} from './infrastructure/eventBus'
 
 import firebase from 'firebase'
 import 'firebase/firestore'
@@ -25,6 +26,8 @@ Vue.use(VueYouTubeEmbed)
 Vue.filter('formattedDate', FormattedDate)
 
 Vue.config.productionTip = false
+
+setupBus()
 
 const firebaseApp = firebase.initializeApp({
   apiKey: 'AIzaSyDKH5kigB_vIheliEtnT0MrLItzpEzq3V8',
