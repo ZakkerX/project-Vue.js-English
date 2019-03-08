@@ -19,7 +19,7 @@
             Books
           </v-tab-item>
           <v-tab-item :key="'Words'">
-            Words
+            <user-profile-words></user-profile-words>
           </v-tab-item>
         </v-tabs>
       </v-flex>
@@ -29,7 +29,8 @@
 
 <script>
 
-import userProfileData from '../userProfileData'
+import UserProfileData from '../UserProfileData'
+import UserProfileWords from '../UserProfileWords'
 export default {
   data () {
     return {
@@ -37,7 +38,7 @@ export default {
     }
   },
   components: {
-    userProfileData
+    UserProfileData, UserProfileWords
   }
 }
 </script>
