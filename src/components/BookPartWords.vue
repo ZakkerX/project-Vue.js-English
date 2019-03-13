@@ -28,6 +28,12 @@
           <v-divider></v-divider>
           <v-card-text>
             <div class="headline">
+              <v-tooltip bottom>
+                <v-avatar slot="activator" v-if="props.item.type" color="indigo" size='52'>
+                  <span class="white--text">T</span>
+                </v-avatar>
+                <span>Translation</span>
+              </v-tooltip>
             {{ props.item.transText }}
             </div>
           </v-card-text>

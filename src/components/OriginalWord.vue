@@ -12,7 +12,7 @@
       </v-avatar>
       <span>Expression</span>
     </v-tooltip>
-    {{ getFullOriginalWord(word)}}
+    {{ getFullOriginalWord(word) }} <v-icon v-if="canPronounceWord" @click="pronounce(word)">music_note</v-icon>
   </div>
 </template>
 
@@ -21,10 +21,41 @@ import {getFullOriginalWord} from '../helpers/words'
 export default {
   props: {
     word: Object,
-    size: Number
+    size: Number,
+    showAudio: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      canPronounceWord: false,
+      voice: null
+    }
   },
   methods: {
-    getFullOriginalWord
+    getFullOriginalWord,
+    pronounce (word) {
+      let msg = new SpeechSynthesisUtterance()
+      msg.voice = this.voice
+      msg.rate = 1
+      msg.pitch = 1
+      msg.volume = 1
+      msg.text = this.getFullOriginalWord(word)
+
+      speechSynthesis.speak(msg)
+    }
+  },
+  created () {
+    if (this.showAudio) {
+      if ('speechSynthesis' in window) {
+        let engVoices = speechSynthesis.getVoices().filter(v => v.name.toLowerCase().indexOf('english') >= 1)
+        if (engVoices.length) {
+          this.canPronounceWord = true
+          this.voice = engVoices[0]
+        }
+      }
+    }
   }
 }
 </script>
