@@ -50,11 +50,6 @@ new Vue({
   components: { App },
   template: '<App/>',
   created () {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.$store.dispatch('autoLoginUser', user)
-      }
-    })
     this.$store.dispatch('loadBooks')
   }
 })

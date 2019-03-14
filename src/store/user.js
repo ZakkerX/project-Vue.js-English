@@ -7,7 +7,8 @@ export default {
       uid: null,
       email: null,
       name: null
-    }
+    },
+    unsubscribeAuth: null
   },
   mutations: {
     setUser (state, payload) {
@@ -17,11 +18,23 @@ export default {
     setUserName (state, payload) {
       state.user.name = payload
     },
-    setUserEmail (state, payload) {
-      state.user.email = payload
+    setAnsubscribeAuth (state, payload) {
+      state.unsubscribeAuth = payload
     }
   },
   actions: {
+    initAuth ({dispatch, commit, state}) {
+      return new Promise((resolve, reject) => {
+        if (state.unsubscribeAuth) {
+          state.unsubscribeAuth()
+        }
+        let unsubscribe = firebase.auth().onAuthStateChanged(user => {
+          dispatch('autoLoginUser', user)
+          resolve(user)
+        })
+        commit('setAnsubscribeAuth', unsubscribe)
+      })
+    },
     async registerUser ({commit}, {name, email, password}) {
       commit('clearError')
       commit('setLoading', true)
@@ -51,9 +64,11 @@ export default {
       }
     },
     autoLoginUser ({commit, dispatch}, payload) {
-      commit('setUser', {uid: payload.uid, email: payload.email})
-      commit('setUserName', payload.displayName)
-      dispatch('loadUserData', payload.uid)
+      if (payload) {
+        commit('setUser', {uid: payload.uid, email: payload.email})
+        commit('setUserName', payload.displayName)
+        dispatch('loadUserData', payload.uid)
+      }
     },
     logoutUser ({commit}, payload) {
       firebase.auth().signOut()
@@ -85,7 +100,7 @@ export default {
           if (payload.changeType === 'email') {
             firebase.auth().currentUser.updateEmail(payload.newEmail)
               .then(() => {
-                commit('setUserEmail', payload.newEmail)
+                commit('setUser', {email: payload.newEmail})
                 commit('setLoading', false)
                 EventBus.notify('userProfileDataChanged')
               })
