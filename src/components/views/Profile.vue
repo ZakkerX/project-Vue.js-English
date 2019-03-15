@@ -16,7 +16,7 @@
             <user-profile-data></user-profile-data>
           </v-tab-item>
           <v-tab-item :key="'Books'">
-            Books
+            <books-list :onlyMy='true'></books-list>
           </v-tab-item>
           <v-tab-item :key="'Words'">
             <user-profile-words></user-profile-words>
@@ -30,6 +30,7 @@
 <script>
 
 import UserProfileData from '../UserProfileData'
+import BooksList from '../BooksList'
 import UserProfileWords from '../UserProfileWords'
 export default {
   data () {
@@ -38,7 +39,7 @@ export default {
     }
   },
   components: {
-    UserProfileData, UserProfileWords
+    UserProfileData, UserProfileWords, BooksList
   }
 }
 </script>

@@ -1,31 +1,35 @@
 <template>
-  <v-container grid-list-md>
-    <v-layout row wrap>
-      <v-flex xs12 md10 sm8 offset-sm2 offset-md1>
-        <v-container fluid>
-          <v-layout row>
-            <v-flex xs7 md8>
-              <v-text-field label="Search" v-model="searchTerm"></v-text-field>
-            </v-flex>
-            <v-flex xs5 m4>
-              <v-select multiple label="Level" :items='levels' v-model="level"></v-select>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-flex>
-      <v-flex xs12 md10 sm10 offset-sm1 offset-md1
-      v-for="book in filteredBooks"
-      :key="book.id"
-      >
-        <book-list-item :book='book'></book-list-item>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div>
+    <div>
+      <v-container fluid>
+        <v-layout row>
+          <v-flex xs7 md8>
+            <v-text-field label="Search" v-model="searchTerm"></v-text-field>
+          </v-flex>
+          <v-flex xs5 m4>
+            <v-select multiple label="Level" :items='levels' v-model="level"></v-select>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </div>
+    <div
+    v-for="book in filteredBooks"
+    :key="book.id"
+    >
+      <book-list-item :book='book'></book-list-item>
+    </div>
+  </div>
 </template>
 
 <script>
 import BookListItem from './BookListItem'
 export default {
+  props: {
+    'onlyMy': {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       searchTerm: null,
@@ -39,6 +43,9 @@ export default {
     },
     filteredBooks () {
       let books = this.books
+      if (this.onlyMy) {
+        books = books.filter(b => this.$store.getters.userData.books[b.id])
+      }
       if (this.searchTerm) {
         books = books.filter(b =>
           b.title.toLowerCase().indexOf(this.searchTerm.toLowerCase()) >= 0 ||

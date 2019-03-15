@@ -68,6 +68,8 @@ export default {
         commit('setUser', {uid: payload.uid, email: payload.email})
         commit('setUserName', payload.displayName)
         dispatch('loadUserData', payload.uid)
+      } else {
+        console.log('5678')
       }
     },
     logoutUser ({commit}, payload) {
